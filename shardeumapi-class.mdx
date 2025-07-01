@@ -1,0 +1,28 @@
+---
+title: ShardeumAPI Class
+description: "A class to interact with the Shardeum network via JSON-RPC and ethers.js."
+---
+
+## The `ShardeumAPI` Class: Your Gateway to Shardeum
+
+We'll be working with a `ShardeumAPI` class that encapsulates all our interactions with the Shardeum network. This class demonstrates two primary ways to interact with Shardeum's JSON-RPC:
+
+1. **Using `ethers.js` `BrowserProvider` and `Signer`:** For wallet interactions (connecting, sending transactions).
+2. **Direct `fetch` calls:** For simple read-only queries (e.g., getting balance or gas price).
+
+### Full Class Code
+
+```javascript
+import { ethers } from 'ethers';
+
+class ShardeumAPI {
+  constructor() {
+    this.rpcUrl = 'https://api-testnet.shardeum.org';
+    this.provider = null;
+    this.signer = null;
+    this.txHistory = {};
+  }
+  // ... (rest of the class as in the guide)
+}
+
+export default new ShardeumAPI(); 

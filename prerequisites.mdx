@@ -1,0 +1,24 @@
+---
+title: Prerequisites
+description: "What you need before connecting to Shardeum via JSON-RPC."
+---
+
+## Prerequisites
+
+Before we dive into the code, ensure you have the following installed:
+
+- **Node.js:** A JavaScript runtime environment. [Download here](https://nodejs.org/). We recommend an LTS (Long Term Support) version.
+- **npm (Node Package Manager):** Comes bundled with Node.js.
+- **MetaMask (or similar browser wallet):** Our example code is designed for a browser environment where a wallet like MetaMask injects `window.ethereum`. This is essential for user authentication and transaction signing.
+- **Basic JavaScript knowledge:** Familiarity with `async/await`, classes, and ES6 modules will be helpful.
+
+### Installing Dependencies
+
+Our tutorial will primarily use the `ethers.js` library, which simplifies interacting with Ethereum-compatible blockchains.
+
+```bash
+mkdir shardeum-rpc-tutorial
+cd shardeum-rpc-tutorial
+npm init -y
+npm install ethers
+``` 

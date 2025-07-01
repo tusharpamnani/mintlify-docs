@@ -1,0 +1,602 @@
+---
+title: Standard Ethereum JSON-RPC Methods (Supported by Shardeum)
+description: "Reference for standard Ethereum JSON-RPC methods supported by Shardeum."
+---
+
+
+### web3_clientVersion
+Returns the current client version.
+
+**Parameters**
+- None
+
+**Returns**
+- `result` (string): The current client version.
+
+**Example Implementation in JS:**
+```javascript
+async function getClientVersion() {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'web3_clientVersion',
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### web3_sha3
+Returns Keccak-256 (not the standardized SHA3-256) of the given data.
+
+**Parameters**
+- `data` (string): The data in hexadecimal form to convert into a SHA3 hash.
+
+**Returns**
+- `result` (string): The SHA3 result of the given string.
+
+**Example Implementation in JS:**
+```javascript
+async function sha3(data) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'web3_sha3',
+      params: [data],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const result = await res.json();
+  if (result.error) throw new Error(result.error.message);
+  return result.result;
+}
+```
+
+---
+
+### net_version
+Returns the current network id.
+
+**Parameters**
+- None
+
+**Returns**
+- `result` (string): The current network id.
+
+**Example Implementation in JS:**
+```javascript
+async function getNetworkId() {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'net_version',
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### net_listening
+Returns `true` if client is actively listening for network connections.
+
+**Parameters**
+- None
+
+**Returns**
+- `result` (boolean): `true` when listening, otherwise `false`.
+
+**Example Implementation in JS:**
+```javascript
+async function isListening() {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'net_listening',
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### eth_chainId
+Returns the chain ID used for signing replay-protected transactions.
+
+**Parameters**
+- None
+
+**Returns**
+- `result` (string): Hexadecimal value as a string representing the integer of the current chain id.
+
+**Example Implementation in JS:**
+```javascript
+async function getChainId() {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'eth_chainId',
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### eth_blockNumber
+Returns the number of most recent block.
+
+**Parameters**
+- None
+
+**Returns**
+- `result` (string): The number of the most recent block.
+
+**Example Implementation in JS:**
+```javascript
+async function getBlockNumber() {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'eth_blockNumber',
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### eth_getBalance
+Returns the balance of the account of given address.
+
+**Parameters**
+- `address` (string): The address to check for balance.
+- `QUANTITY|TAG` (string): An integer block number, or the string "latest"/"earliest".
+
+**Returns**
+- `result` (string): An integer of the current balance in wei (hex string).
+
+**Example Implementation in JS:**
+```javascript
+async function getBalanceOf(address) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'eth_getBalance',
+      params: [address, 'latest'],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return ethers.formatEther(data.result); // Convert Wei to SHM
+}
+```
+
+---
+
+### eth_getStorageAt
+Returns the value from a storage position at a given address.
+
+**Parameters**
+- `address` (string): The address of the storage.
+- `position` (string): The position in the storage.
+- `QUANTITY|TAG` (string): An integer block number, or the string "latest"/"earliest".
+
+**Returns**
+- `result` (string): The value at the given storage position.
+
+**Example Implementation in JS:**
+```javascript
+async function getStorageAt(address, position) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'eth_getStorageAt',
+      params: [address, position, 'latest'],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### eth_getTransactionCount
+Returns the number of transactions sent from an address.
+
+**Parameters**
+- `address` (string): The address to check for transaction count.
+- `QUANTITY|TAG` (string): An integer block number, or the string "latest"/"earliest".
+
+**Returns**
+- `result` (string): The number of transactions sent from the given address.
+
+**Example Implementation in JS:**
+```javascript
+async function getTransactionCount(address) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'eth_getTransactionCount',
+      params: [address, 'latest'],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### eth_getBlockTransactionCountByHash
+Returns the number of transactions in a block from a block matching the given block hash.
+
+**Parameters**
+- `blockHash` (string): The hash of the block.
+
+**Returns**
+- `result` (string): The number of transactions in the block.
+
+**Example Implementation in JS:**
+```javascript
+async function getBlockTransactionCountByHash(blockHash) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'eth_getBlockTransactionCountByHash',
+      params: [blockHash],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### eth_getBlockTransactionCountByNumber
+Returns the number of transactions in a block matching the given block number.
+
+**Parameters**
+- `blockNumber` (string): The block number.
+
+**Returns**
+- `result` (string): The number of transactions in the block.
+
+**Example Implementation in JS:**
+```javascript
+async function getBlockTransactionCountByNumber(blockNumber) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'eth_getBlockTransactionCountByNumber',
+      params: [blockNumber],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### eth_signTransaction
+Returns a signed transaction.
+
+**Parameters**
+- `transaction` (object): The transaction to sign.
+
+**Returns**
+- `result` (string): The signed transaction.
+
+**Example Implementation in JS:**
+```javascript
+async function signTransaction(transaction) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'eth_signTransaction',
+      params: [transaction],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### eth_sendTransaction
+Sends a transaction to the network.
+
+**Parameters**
+- `transaction` (object): The transaction to send.
+
+**Returns**
+- `result` (string): The transaction hash.
+
+**Example Implementation in JS:**
+```javascript
+async function sendTransaction(transaction) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'eth_sendTransaction',
+      params: [transaction],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### eth_sendRawTransaction
+Sends a raw transaction to the network.
+
+**Parameters**
+- `rawTransaction` (string): The raw transaction data.
+
+**Returns**
+- `result` (string): The transaction hash.
+
+**Example Implementation in JS:**
+```javascript
+async function sendRawTransaction(rawTransaction) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'eth_sendRawTransaction',
+      params: [rawTransaction],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### eth_subscribe
+Subscribes to a new block header or a new pending transaction.
+
+**Parameters**
+- `subscriptionType` (string): The type of subscription ("newHeads" or "newPendingTransactions").
+
+**Returns**
+- `result` (string): The subscription ID.
+
+**Example Implementation in JS:**
+```javascript
+async function subscribe(subscriptionType) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'eth_subscribe',
+      params: [subscriptionType],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### eth_estimateGas
+Returns an estimate of how much gas is necessary to allow a transaction to complete.
+
+**Parameters**
+- `transaction` (object): The transaction to estimate gas for.
+
+**Returns**
+- `result` (string): The estimated gas.
+
+**Example Implementation in JS:**
+```javascript
+async function estimateGas(transaction) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'eth_estimateGas',
+      params: [transaction],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### eth_getBlockByHash
+Returns information about a block by hash.
+
+**Parameters**
+- `blockHash` (string): The hash of the block.
+
+**Returns**
+- `result` (object): Block information object.
+
+**Example Implementation in JS:**
+```javascript
+async function getBlockByHash(blockHash) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'eth_getBlockByHash',
+      params: [blockHash],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### eth_getBlockByNumber
+Returns information about a block by number.
+
+**Parameters**
+- `blockNumber` (string): The block number.
+
+**Returns**
+- `result` (object): Block information object.
+
+**Example Implementation in JS:**
+```javascript
+async function getBlockByNumber(blockNumber) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'eth_getBlockByNumber',
+      params: [blockNumber],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### eth_getTransactionByHash
+Returns the information about a transaction requested by transaction hash.
+
+**Parameters**
+- `txHash` (string): The hash of a transaction.
+
+**Returns**
+- `result` (object): Transaction details object.
+
+**Example Implementation in JS:**
+```javascript
+async function getTransactionByHash(txHash) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'eth_getTransactionByHash',
+      params: [txHash],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### eth_getTransactionReceipt
+Returns the receipt of a transaction by transaction hash.
+
+**Parameters**
+- `txHash` (string): The hash of the transaction.
+
+**Returns**
+- `result` (object): Transaction receipt object.
+
+**Example Implementation in JS:**
+```javascript
+async function getTransactionReceipt(txHash) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'eth_getTransactionReceipt',
+      params: [txHash],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+``` 

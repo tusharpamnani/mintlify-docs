@@ -1,0 +1,26 @@
+---
+title: Step-by-Step Explanation
+description: "Detailed breakdown of the ShardeumAPI class and its methods."
+---
+
+## Step-by-Step Explanation of `ShardeumAPI`
+
+### Constructor
+- Sets up the RPC URL, provider, signer, and transaction history.
+
+### Connecting to Shardeum and Authentication
+- Checks for `window.ethereum` (MetaMask or similar wallet).
+- Requests account access and gets a signer for transactions.
+
+### Performing a Sample Request: `eth_getBalance`
+- Uses a raw JSON-RPC call to get an account's balance.
+- Converts the result from Wei to SHM for readability.
+
+### Sending Transactions: `sendSHM`
+- Converts SHM to Wei, gets gas price, and sends a transaction using the signer.
+- Handles user approval and transaction hash retrieval.
+
+### Other Helper Functions
+- `getCurrentAddress()`, `getMyBalance()`, `getGasPrice()`, `getTransactionByHash()`, `donate()`, `formatSHM()`, `parseSHM()`.
+
+Each method is wrapped in robust error handling for a smooth developer experience. 

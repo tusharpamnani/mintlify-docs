@@ -1,0 +1,98 @@
+---
+title: Shardeum-specific JSON-RPC Methods
+description: "Reference for Shardeum-specific JSON-RPC methods."
+---
+
+# Shardeum-specific JSON-RPC Methods
+
+These methods are unique to the Shardeum network and are not part of the standard Ethereum JSON-RPC API.
+
+---
+
+### shardeum_getNodeList
+Returns a paginated list of active nodes in the Shardeum network.
+
+**Parameters**
+- `Object` (optional): Pagination parameters (`page`, `limit`).
+
+**Returns**
+- `result` (object): Node list response object.
+
+**Example Implementation in JS:**
+```javascript
+async function getNodeList(page = 1, limit = 100) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'shardeum_getNodeList',
+      params: [{ page, limit }],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### shardeum_getNetworkAccount
+Returns the current network settings and parameters.
+
+**Parameters**
+- None
+
+**Returns**
+- `result` (object): Network account data.
+
+**Example Implementation in JS:**
+```javascript
+async function getNetworkAccount() {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'shardeum_getNetworkAccount',
+      params: [],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+```
+
+---
+
+### shardeum_getCycleInfo
+Returns information about a specific cycle or the latest cycle in the network.
+
+**Parameters**
+- `number` (optional): The cycle number to query. If null, returns the latest cycle information.
+
+**Returns**
+- `result` (object): Cycle info object.
+
+**Example Implementation in JS:**
+```javascript
+async function getCycleInfo(cycleNumber = null) {
+  const res = await fetch('https://api-testnet.shardeum.org', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      method: 'shardeum_getCycleInfo',
+      params: [cycleNumber],
+      id: 1,
+      jsonrpc: '2.0'
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.result;
+}
+``` 

@@ -1,0 +1,18 @@
+---
+title: Error Handling
+description: "How to handle errors and edge cases when working with ShardeumAPI."
+---
+
+## Handling Errors Properly
+
+Robust error handling is crucial for any production-ready application. Our `ShardeumAPI` class incorporates `try...catch` blocks around all network and wallet interactions.
+
+### Common Error Scenarios
+
+1. **Wallet Not Found:** Prompt user to install MetaMask or another wallet extension.
+2. **Wallet Connection Rejected:** User declined wallet connection; show a clear message.
+3. **Transaction Rejected by User:** User declined to sign the transaction; handle gracefully.
+4. **RPC Errors:** Inspect the `error` object in the RPC response for details.
+5. **Network Errors:** Catch and display network issues (e.g., endpoint down, no internet).
+
+By handling these cases, your app will be more resilient and user-friendly. 
